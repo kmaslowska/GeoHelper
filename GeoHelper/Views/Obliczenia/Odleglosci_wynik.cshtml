@@ -1,0 +1,83 @@
+﻿@model GeoHelper.Models.OdleglosciViewModel
+
+@{
+    ViewData["Title"] = "Odległość pomiędzy punktami";
+}
+
+<h2>Wynik obliczeń</h2>
+
+<div>
+    <h4>Punkt A</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Nazwa")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.name1)
+        </dd>
+        <dt>
+            @Html.DisplayName("x")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.x1)
+        </dd>
+        <dt>
+            @Html.DisplayName("y")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.y1)
+        </dd>
+        <dt>
+            @Html.DisplayName("z")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.z1)
+        </dd>
+    </dl>
+</div>
+<div>
+    <h4>Punkt B</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Nazwa")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.name2)
+        </dd>
+        <dt>
+            @Html.DisplayName("x")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.x2)
+        </dd>
+        <dt>
+            @Html.DisplayName("y")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.y2)
+        </dd>
+        <dt>
+            @Html.DisplayName("z")
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.z2)
+        </dd>
+    </dl>
+    <div>
+        <h4>Odległość</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayName("Wynik")
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.score)
+            </dd>
+        </dl>
+    </div>
+</div>
+<div>
+    <a asp-action="Odleglosci">Wykonaj obliczenia ponownie</a>
+</div>

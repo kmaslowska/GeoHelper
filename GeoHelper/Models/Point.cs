@@ -7,11 +7,11 @@ namespace GeoHelper.Models
 {
     public class Point
     {
-        int id;
-        String name;
-        double x;
-        double y;
-        double z;
-        int projectId;
+        public int ID { get; set; }
+        public String name { get; set; }
+        public double x { get; set; }
+        public double y { get; set; }
+        public double z { get; set; }
+        public int projectId { get; set; }
     }
 }

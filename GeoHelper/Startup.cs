@@ -37,6 +37,9 @@ namespace GeoHelper
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
+
+            services.AddDbContext<GeoHelperContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("GeoHelperContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

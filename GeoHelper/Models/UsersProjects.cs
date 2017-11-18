@@ -7,7 +7,8 @@ namespace GeoHelper.Models
 {
     public class UsersProjects
     {
-        int projectId;
-        String user;
+        public int ID { get; set; }
+        public int projectId { get; set; }
+        public String user { get; set; }
     }
 }

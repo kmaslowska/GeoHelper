@@ -1,0 +1,68 @@
+﻿@model GeoHelper.Models.OdleglosciViewModel
+@{
+    ViewData["Title"] = "Obliczanie odległości pomiędzy punktami";
+}
+
+<h2>Odległości</h2>
+<h4>Obliczanie odległości pomiędzy punktami</h4>
+<div class="row">
+    <form asp-action="Odleglosci_wynik">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="ID" />
+        <input type="hidden" asp-for="score" />
+        <div class="col-md-6 col-lg-6">
+            <h4>Punkt A</h4>
+            <div class="form-group" width="50px">
+                <label asp-for="name1" class="control-label">Nazwa</label>
+                <input asp-for="name1" class="form-control" />
+                <span asp-validation-for="name1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="x1" class="control-label">x</label>
+                <input asp-for="x1" class="form-control" />
+                <span asp-validation-for="x1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="y1" class="control-label">y</label>
+                <input asp-for="y1" class="form-control" />
+                <span asp-validation-for="y1" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="z1" class="control-label">z</label>
+                <input asp-for="z1" class="form-control" />
+                <span asp-validation-for="z1" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <h4>Punkt B</h4>
+            <div class="form-group">
+                <label asp-for="name2" class="control-label">Nazwa</label>
+                <input asp-for="name2" class="form-control" />
+                <span asp-validation-for="name2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="x2" class="control-label">x</label>
+                <input asp-for="x2" class="form-control" />
+                <span asp-validation-for="x2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="y2" class="control-label">y</label>
+                <input asp-for="y2" class="form-control" />
+                <span asp-validation-for="y2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="z2" class="control-label">z</label>
+                <input asp-for="z2" class="form-control" />
+                <span asp-validation-for="z1" class="text-danger"></span>
+            </div>
+        </div>
+
+            <div class="form-group">
+                <input type="submit" value="Oblicz" class="btn btn-default" />
+            </div>
+</form>
+</div>
+
+
+
+

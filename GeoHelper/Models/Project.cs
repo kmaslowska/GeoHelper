@@ -7,9 +7,10 @@ namespace GeoHelper.Models
 {
     public class Project
     {
-        int id;
-        String owner;
-        String name;
-        String description;
+        public int ID { get; set; }
+        public String owner { get; set; }
+        public String name { get; set; }
+        public String description { get; set; }
+        public String frameOfReference { get; set; }
     }
 }
