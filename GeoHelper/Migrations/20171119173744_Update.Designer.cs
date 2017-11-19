@@ -11,9 +11,10 @@ using System;
 namespace GeoHelper.Migrations
 {
     [DbContext(typeof(GeoHelperContext))]
-    partial class GeoHelperContextModelSnapshot : ModelSnapshot
+    [Migration("20171119173744_Update")]
+    partial class Update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

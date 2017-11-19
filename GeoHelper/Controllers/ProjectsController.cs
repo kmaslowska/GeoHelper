@@ -6,22 +6,37 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GeoHelper.Models;
+using GeoHelper.Data;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using Microsoft.Extensions.Logging;
 
 namespace GeoHelper.Controllers
 {
     public class ProjectsController : Controller
     {
         private readonly GeoHelperContext _context;
+        private readonly ApplicationDbContext _contextApp;
+        private readonly ILogger _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ProjectsController(GeoHelperContext context)
+        public ProjectsController(GeoHelperContext context, ApplicationDbContext contextApp, ILogger<ObliczeniaController> logger, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _contextApp = contextApp;
+            _logger = logger;
+            _userManager = userManager;
         }
 
         // GET: Projects
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Project.ToListAsync());
+            string email = (await _userManager.GetUserAsync(HttpContext.User))?.Email;
+            _logger.LogDebug(message: "email----------------------------------------------------------------------------------------------"+email);
+            var projekty= (from proj in _context.Project
+                           where proj.owner == email 
+                           select proj);
+            return View(await projekty.ToListAsync());
         }
 
         // GET: Projects/Details/5
@@ -57,8 +72,32 @@ namespace GeoHelper.Controllers
         {
             if (ModelState.IsValid)
             {
+                String email= (await _userManager.GetUserAsync(HttpContext.User))?.Email;
+                project.owner = email;
                 _context.Add(project);
                 await _context.SaveChangesAsync();
+                //usuniecie flagi projektu wiodacego
+                UsersProjects usersInProjects= (from proj in _context.UsersProjects
+                                                where proj.user == email && proj.leading==true
+                                                select proj).First();
+                if (usersInProjects != null)
+                {
+                    usersInProjects.leading = false;
+                    _context.Update(usersInProjects);
+                    await _context.SaveChangesAsync();
+                }
+                
+                Project projectAfterSaver = (from proj in _context.Project
+                                             where proj.owner == email && proj.name==project.name && proj.description==project.description
+                                             select proj).First();
+                //dodanie użytkownika tworzącego jako kolaboranta i ustawienia projektu jako główny
+                UsersProjects userProject = new UsersProjects();
+                userProject.projectId = projectAfterSaver.ID;
+                userProject.user = projectAfterSaver.owner;
+                userProject.leading = true;
+                _context.Add(userProject);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
             return View(project);

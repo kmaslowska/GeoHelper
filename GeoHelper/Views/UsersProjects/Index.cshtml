@@ -4,19 +4,19 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Kolaboranci w Twoim projekcie</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Dodaj nowego kolaboranta</a>
 </p>
 <table class="table">
     <thead>
         <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.projectId)
+                    @Html.DisplayName("Id projektu")
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.user)
+                    @Html.DisplayName("Użytkownik")
                 </th>
             <th></th>
         </tr>
@@ -31,9 +31,9 @@
                 @Html.DisplayFor(modelItem => item.user)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edytuj</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Szczegóły</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Usuń</a>
             </td>
         </tr>
 }

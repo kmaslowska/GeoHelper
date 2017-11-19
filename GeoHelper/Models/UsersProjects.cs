@@ -10,5 +10,6 @@ namespace GeoHelper.Models
         public int ID { get; set; }
         public int projectId { get; set; }
         public String user { get; set; }
+        public bool leading { get; set; }
     }
 }

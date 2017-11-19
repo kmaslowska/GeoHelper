@@ -13,6 +13,9 @@
                 @Html.ActionLink("Projekty", "Index", "Projects")
             </li>
             <li>
+                @Html.ActionLink("Punkty", "IndexCurrentProject", "Points")
+            </li>
+            <li>
                 <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Witaj, @UserManager.GetUserName(User)</a>
             </li>
             <li>

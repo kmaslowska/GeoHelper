@@ -4,25 +4,25 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<h2>Twoje projekty</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Utwórz nowy projekt</a>
 </p>
 <table class="table">
     <thead>
         <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.owner)
+                    @Html.DisplayName("Właściciel")
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.name)
+                    @Html.DisplayName("Nazwa")
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.description)
+                    @Html.DisplayName("Opis")
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.frameOfReference)
+                    @Html.DisplayName("Układ odniesienia")
                 </th>
             <th></th>
         </tr>
@@ -43,9 +43,12 @@
                 @Html.DisplayFor(modelItem => item.frameOfReference)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edytuj</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Szczegóły</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Usuń</a> |
+                <a asp-controller="UsersProjects" asp-action="Index" asp-route-id="@item.ID">Kolaboranci</a> |
+                <a asp-controller="Points" asp-action="Index" asp-route-id="@item.ID">Punkty projektu</a>
+
             </td>
         </tr>
 }

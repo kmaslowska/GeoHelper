@@ -6,22 +6,46 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GeoHelper.Models;
+using GeoHelper.Data;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
 
 namespace GeoHelper.Controllers
 {
     public class PointsController : Controller
     {
         private readonly GeoHelperContext _context;
+        private readonly ApplicationDbContext _contextApp;
+        private readonly ILogger _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public PointsController(GeoHelperContext context)
+        public PointsController(GeoHelperContext context, ApplicationDbContext contextApp, ILogger<ObliczeniaController> logger, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _contextApp = contextApp;
+            _logger = logger;
+            _userManager = userManager;
         }
 
         // GET: Points
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> IndexCurrentProject()
         {
-            return View(await _context.Point.ToListAsync());
+            String email = (await _userManager.GetUserAsync(HttpContext.User))?.Email;
+            UsersProjects usersInProjects = (from proj in _context.UsersProjects
+                                             where proj.user == email && proj.leading == true
+                                             select proj).First();
+            var points = (from point in _context.Point
+                          where point.projectId == usersInProjects.projectId
+                          select point);
+            return View(await points.ToListAsync());
+        }
+        // GET: Points
+        public async Task<IActionResult> Index(int? id)
+        {
+            var points = (from point in _context.Point
+                                  where point.projectId == id
+                                  select point);
+            return View(await points.ToListAsync());
         }
 
         // GET: Points/Details/5

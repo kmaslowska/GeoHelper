@@ -19,9 +19,12 @@ namespace GeoHelper.Controllers
         }
 
         // GET: UsersProjects
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            return View(await _context.UsersProjects.ToListAsync());
+            var usersInProjekt = (from user in _context.UsersProjects
+                            where user.projectId == id
+                            select user);
+            return View(await usersInProjekt.ToListAsync());
         }
 
         // GET: UsersProjects/Details/5
