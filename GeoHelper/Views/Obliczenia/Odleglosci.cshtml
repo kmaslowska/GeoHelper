@@ -10,6 +10,8 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="ID" />
         <input type="hidden" asp-for="score" />
+        <input type="hidden" asp-for="z1" />
+        <input type="hidden" asp-for="z2" />
         <div class="col-md-6 col-lg-6">
             <h4>Punkt A</h4>
             <div class="form-group" width="50px">
@@ -26,11 +28,6 @@
                 <label asp-for="y1" class="control-label">y</label>
                 <input asp-for="y1" class="form-control" />
                 <span asp-validation-for="y1" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="z1" class="control-label">z</label>
-                <input asp-for="z1" class="form-control" />
-                <span asp-validation-for="z1" class="text-danger"></span>
             </div>
         </div>
         <div class="col-md-6 col-lg-6">
@@ -49,11 +46,6 @@
                 <label asp-for="y2" class="control-label">y</label>
                 <input asp-for="y2" class="form-control" />
                 <span asp-validation-for="y2" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="z2" class="control-label">z</label>
-                <input asp-for="z2" class="form-control" />
-                <span asp-validation-for="z1" class="text-danger"></span>
             </div>
         </div>
 
