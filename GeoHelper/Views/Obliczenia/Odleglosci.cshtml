@@ -2,18 +2,28 @@
 @{
     ViewData["Title"] = "Obliczanie odległości pomiędzy punktami";
 }
+@inject SignInManager<ApplicationUser> SignInManager
 
 <h2>Odległości</h2>
 <h4>Obliczanie odległości pomiędzy punktami</h4>
 <div class="row">
     <form asp-action="Odleglosci_wynik">
+
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="ID" />
         <input type="hidden" asp-for="score" />
         <input type="hidden" asp-for="z1" />
         <input type="hidden" asp-for="z2" />
         <div class="col-md-6 col-lg-6">
-            <h4>Punkt A</h4>
+            <h3>Punkt A</h3>
+             @if (SignInManager.IsSignedIn(User))
+             {   <h4>Wybierz punkt do obliczeń z bieżącego projektu</h4>  
+                 <select class="btn btn-default dropdown-toggle" asp-for="@Model.selectedId1" asp-items="@(new SelectList(Model.pointList1,"ID", "name"))">
+                       <option>Wybierz punkt A</option>
+                   </select>
+                <h4>lub wprowadź dowolne wartości:</h4> 
+             }
+            
             <div class="form-group" width="50px">
                 <label asp-for="name1" class="control-label">Nazwa</label>
                 <input asp-for="name1" class="form-control" />
@@ -31,7 +41,16 @@
             </div>
         </div>
         <div class="col-md-6 col-lg-6">
-            <h4>Punkt B</h4>
+            <h3>Punkt B</h3>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <h4>Wybierz punkt do obliczeń z bieżącego projektu</h4>
+                <select class="btn btn-default  dropdown-toggle " asp-for="@Model.selectedId2" asp-items="@(new SelectList(Model.pointList1,"ID", "name"))">
+                    <option>Wybierz punkt B</option>
+                </select>
+                <h4>lub wprowadź dowolne wartości:</h4>
+            }
+
             <div class="form-group">
                 <label asp-for="name2" class="control-label">Nazwa</label>
                 <input asp-for="name2" class="form-control" />
@@ -48,10 +67,9 @@
                 <span asp-validation-for="y2" class="text-danger"></span>
             </div>
         </div>
-
-            <div class="form-group">
-                <input type="submit" value="Oblicz" class="btn btn-default" />
-            </div>
+        <div class="form-group  text-center">
+                <input type="submit" value="Oblicz" class="btn btn-default btn-sx" />
+        </div>
 </form>
 </div>
 

@@ -1,25 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using GeoHelper.Data;
+using GeoHelper.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using GeoHelper.Models;
-using Microsoft.Extensions.Logging;
 
 namespace GeoHelper.Controllers
 {
     public class ObliczeniaController : Controller
     {
+        private readonly ApplicationDbContext _contextApp;
         private readonly ILogger _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly GeoHelperContext _context;
 
 
-        public ObliczeniaController(GeoHelperContext context, ILogger<ObliczeniaController> logger)
+        public ObliczeniaController(GeoHelperContext context, ApplicationDbContext contextApp, ILogger<ObliczeniaController> logger, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _contextApp = contextApp;
             _logger = logger;
+            _userManager = userManager;
         }
 
         // GET: Obliczenia
@@ -149,10 +153,24 @@ namespace GeoHelper.Controllers
         }
 
         // GET: Obliczenia/Odleglosci
-        public IActionResult Odleglosci()
+        public async Task<IActionResult> Odleglosci()
         {
+            OdleglosciViewModel odleglosciViewModel = new OdleglosciViewModel();
+            if (User.Identity.IsAuthenticated)
+            {
+                string email = (await _userManager.GetUserAsync(HttpContext.User))?.Email;
+                UsersProjects leadingProject = (from proj in _context.UsersProjects
+                                where proj.user == email && proj.leading==true
+                                select proj).First();
+                odleglosciViewModel.pointList1= (from point in _context.Point
+                                                 where point.projectId==leadingProject.projectId
+                                                 select point).ToList();
+                odleglosciViewModel.pointList2 = (from point in _context.Point
+                                                  where point.projectId == leadingProject.projectId
+                                                  select point).ToList();
+            }
             _logger.LogDebug(message: "get-------------------------------------------------------------------------------------------------");
-            return View();
+            return View(odleglosciViewModel);
         }
 
 
@@ -162,12 +180,142 @@ namespace GeoHelper.Controllers
         {
             _logger.LogDebug(message: "odleglosci wynik------------------------------------------------------------------------------------------------Weszło odległości");
             OdleglosciViewModel odleglosciViewModel = odleglosci;
-            double roznicaX = odleglosciViewModel.x2 - odleglosciViewModel.x1;
-            double roznicaY = odleglosciViewModel.y2 - odleglosciViewModel.y1;
-            double roznicaZ = odleglosciViewModel.z2 - odleglosciViewModel.z1;
-            odleglosciViewModel.score = Math.Sqrt(roznicaX*roznicaX+roznicaY*roznicaY+roznicaZ*roznicaZ);
+            if (odleglosci.selectedId1 != 0)
+            {
+                odleglosciViewModel.x1 = (from point in _context.Point
+                                                  where point.ID == odleglosci.selectedId1
+                                                  select point).First().x;
+                odleglosciViewModel.y1 = (from point in _context.Point
+                                          where point.ID == odleglosci.selectedId1
+                                          select point).First().y;
+                odleglosciViewModel.name1 = (from point in _context.Point
+                                          where point.ID == odleglosci.selectedId1
+                                          select point).First().name;
+            }
+            if (odleglosci.selectedId2 != 0)
+            {
+                odleglosciViewModel.x2 = (from point in _context.Point
+                                          where point.ID == odleglosci.selectedId2
+                                          select point).First().x;
+                odleglosciViewModel.y2 = (from point in _context.Point
+                                          where point.ID == odleglosci.selectedId2
+                                          select point).First().y;
+                odleglosciViewModel.name2 = (from point in _context.Point
+                                             where point.ID == odleglosci.selectedId2
+                                             select point).First().name;
+            }
+            odleglosciViewModel.obliczDlugosc();
 
             return View(odleglosciViewModel);
+        }
+        // GET: Obliczenia/Azymut
+        public async Task<IActionResult> Azymut()
+        {
+            AzymutViewModel azymutViewModel = new AzymutViewModel();
+            if (User.Identity.IsAuthenticated)
+            {
+                string email = (await _userManager.GetUserAsync(HttpContext.User))?.Email;
+                UsersProjects leadingProject = (from proj in _context.UsersProjects
+                                                where proj.user == email && proj.leading == true
+                                                select proj).First();
+                azymutViewModel.pointList1 = (from point in _context.Point
+                                                  where point.projectId == leadingProject.projectId
+                                                  select point).ToList();
+                azymutViewModel.pointList2 = (from point in _context.Point
+                                                  where point.projectId == leadingProject.projectId
+                                                  select point).ToList();
+            }
+            _logger.LogDebug(message: "get-------------------------------------------------------------------------------------------------");
+            return View(azymutViewModel);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Azymut_wynik(AzymutViewModel azymut)
+        {
+            _logger.LogDebug(message: "odleglosci wynik------------------------------------------------------------------------------------------------Weszło odległości");
+            AzymutViewModel azymutViewModel = azymut;
+            if (azymut.selectedId1 != 0)
+            {
+                azymutViewModel.x1 = (from point in _context.Point
+                                          where point.ID == azymut.selectedId1
+                                          select point).First().x;
+                azymutViewModel.y1 = (from point in _context.Point
+                                          where point.ID == azymut.selectedId1
+                                          select point).First().y;
+                azymutViewModel.name1 = (from point in _context.Point
+                                             where point.ID == azymut.selectedId1
+                                             select point).First().name;
+            }
+            if (azymut.selectedId2 != 0)
+            {
+                azymutViewModel.x2 = (from point in _context.Point
+                                          where point.ID == azymut.selectedId2
+                                          select point).First().x;
+                azymutViewModel.y2 = (from point in _context.Point
+                                          where point.ID == azymut.selectedId2
+                                          select point).First().y;
+                azymutViewModel.name2 = (from point in _context.Point
+                                             where point.ID == azymut.selectedId2
+                                             select point).First().name;
+            }
+            azymutViewModel.obliczAzymut();
+
+            return View(azymutViewModel);
+        }
+        // GET: Obliczenia/KatPoziomy
+        public async Task<IActionResult> KatPoziomy()
+        {
+            KatPoziomyViewModel katPoziomyViewModel = new KatPoziomyViewModel();
+            if (User.Identity.IsAuthenticated)
+            {
+                string email = (await _userManager.GetUserAsync(HttpContext.User))?.Email;
+                UsersProjects leadingProject = (from proj in _context.UsersProjects
+                                                where proj.user == email && proj.leading == true
+                                                select proj).First();
+                katPoziomyViewModel.pointList = (from point in _context.Point
+                                              where point.projectId == leadingProject.projectId
+                                              select point).ToList();
+            }
+            _logger.LogDebug(message: "get-------------------------------------------------------------------------------------------------");
+            return View(katPoziomyViewModel);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> KatPoziomy_wynik(KatPoziomyViewModel katPoziomy)
+        {
+            _logger.LogDebug(message: "odleglosci wynik------------------------------------------------------------------------------------------------Weszło odległości");
+            KatPoziomyViewModel katPoziomyViewModel = katPoziomy;
+            if (katPoziomy.selectedId1 != 0)
+            {
+                katPoziomyViewModel.x1 = (from point in _context.Point
+                                      where point.ID == katPoziomy.selectedId1
+                                      select point).First().x;
+                katPoziomyViewModel.y1 = (from point in _context.Point
+                                      where point.ID == katPoziomy.selectedId1
+                                      select point).First().y;
+                katPoziomyViewModel.name1 = (from point in _context.Point
+                                         where point.ID == katPoziomy.selectedId1
+                                         select point).First().name;
+            }
+            if (katPoziomy.selectedId2 != 0)
+            {
+                katPoziomyViewModel.x2 = (from point in _context.Point
+                                      where point.ID == katPoziomy.selectedId2
+                                      select point).First().x;
+                katPoziomyViewModel.y2 = (from point in _context.Point
+                                      where point.ID == katPoziomy.selectedId2
+                                      select point).First().y;
+                katPoziomyViewModel.name2 = (from point in _context.Point
+                                         where point.ID == katPoziomy.selectedId2
+                                         select point).First().name;
+            }
+            katPoziomyViewModel.obliczAzymut();
+
+            return View(katPoziomyViewModel);
         }
 
         private bool PointExists(int id)

@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using GeoHelper.Data;
+using GeoHelper.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using GeoHelper.Models;
-using GeoHelper.Data;
-using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-using Microsoft.Extensions.Logging;
 
 namespace GeoHelper.Controllers
 {
