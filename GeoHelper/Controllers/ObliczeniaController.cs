@@ -317,6 +317,13 @@ namespace GeoHelper.Controllers
 
             return View(katPoziomyViewModel);
         }
+        // GET: Obliczenia/ZmianaMiarKatowych
+        public IActionResult ZmianaMiarKatowych()
+        {
+            ZmianaMiarKatowychViewModel zmianaMiarKatowycViewModel = new ZmianaMiarKatowychViewModel();
+
+            return View(zmianaMiarKatowycViewModel);
+        }
 
         private bool PointExists(int id)
         {
