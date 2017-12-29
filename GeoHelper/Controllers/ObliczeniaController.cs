@@ -2,9 +2,10 @@
 using GeoHelper.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -320,9 +321,28 @@ namespace GeoHelper.Controllers
         // GET: Obliczenia/ZmianaMiarKatowych
         public IActionResult ZmianaMiarKatowych()
         {
-            ZmianaMiarKatowychViewModel zmianaMiarKatowycViewModel = new ZmianaMiarKatowychViewModel();
+            ZmianaMiarKatowychViewModel zmianaMiarKatowychViewModel = new ZmianaMiarKatowychViewModel();
+            zmianaMiarKatowychViewModel.typeOfChange = new List<SelectListItem>
+             {
+                    new SelectListItem {Text = "stopnie->grady", Value = "stopnie->grady"},
+                    new SelectListItem {Text = "grady->stopnie", Value = "grady->stopnie"},
+                    new SelectListItem {Text = "stopnie->radiany", Value = "stopnie->radiany"},
+                    new SelectListItem {Text = "radiany->stopnie", Value = "radiany->stopnie"},
+                    new SelectListItem {Text = "grady->radiany", Value = "grady->radiany"},
+                    new SelectListItem {Text = "radiany->grady", Value = "radiany->grady"}
+            };
 
-            return View(zmianaMiarKatowycViewModel);
+            return View(zmianaMiarKatowychViewModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ZmianaMiarKatowych_wynik(ZmianaMiarKatowychViewModel zmianaMiarKatowych)
+        {
+
+            ZmianaMiarKatowychViewModel zmianaMiarKatowychViewModel = zmianaMiarKatowych;
+            zmianaMiarKatowychViewModel.zamienMiary();
+
+            return View(zmianaMiarKatowychViewModel);
         }
 
         private bool PointExists(int id)

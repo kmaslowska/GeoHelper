@@ -3972,9 +3972,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   margin-left: -1px;
 }
 .nav {
-  padding-left: 0;
-  margin-bottom: 0;
-  list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
 }
 .nav > li {
   position: relative;
@@ -4159,9 +4159,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   display: block;
 }
 .nav-tabs .dropdown-menu {
-  margin-top: -1px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+    margin-top: -1px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 .navbar {
   position: relative;

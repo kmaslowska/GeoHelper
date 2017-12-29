@@ -1,0 +1,54 @@
+﻿@model GeoHelper.Models.ZmianaMiarKatowychViewModel
+
+@{
+    ViewData["Title"] = "Zmiana miar kątowych";
+}
+
+<h2>Wynik obliczeń</h2>
+
+<div class="row">
+    <div class="col-md-7 col-xs-12 text-center" style="float:right;">
+        <img src="~/images/test.jpg" alt="Sample Photo" width="300" height="300" />
+    </div>
+    <div class="col-md-4 col-xs-12">
+        <h4>Kąt</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayName("Rodzaj zamiany")
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.selectedTypeOfChange)
+            </dd>
+        </dl>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayName("Nazwa")
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.name)
+                </dd>
+            </dl>
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayName("Podana wartość")
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.value)
+                    </dd>
+                </dl>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayName("Obliczona wartość")
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.result)
+                        </dd>
+
+                    </dl>
+
+    </div>
+</div>
+    <div>
+        <a asp-action="ZmianaMiarKatowych">Wykonaj obliczenia ponownie</a>
+    </div>

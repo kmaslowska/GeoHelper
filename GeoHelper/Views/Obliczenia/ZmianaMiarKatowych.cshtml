@@ -5,36 +5,37 @@
 }
 <h2>Zmiana miar kątowych</h2>
 <h4>Zmiana miar kątowych</h4>
-<div class="row">
-    <div class="col-md-12 col-sm-12 text-center">
-        <img src="~/images/test.jpg" alt="Sample Photo" width="300" height="300" />
-    </div>
-    <form asp-action="ZmianaMiarKatowych_wynik">
+        <div class="row">
+            <div class="col-md-7 col-xs-12 text-center" style="float:right;">
+                <img src="~/images/test.jpg" alt="Sample Photo" width="300" height="300" />
+            </div>
+            <div class="col-md-4 col-xs-12">
+                <form asp-action="ZmianaMiarKatowych_wynik">
 
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="ID" />
-        <input type="hidden" asp-for="result" />
-        <div class="col-md-6 col-lg-6 ">
-            <h3>Kąt</h3>
-            <div class="form-group" width="50px">
-                <label asp-for="name" class="control-label">Nazwa</label>
-                <input asp-for="name" class="form-control" />
-                <span asp-validation-for="name" class="text-danger"></span>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="ID" />
+                    <input type="hidden" asp-for="result" />
+                    
+                        <h4>Wybierz rodzaj zmiany miary</h4>
+                        <select class="btn btn-default dropdown-toggle" asp-for="@Model.selectedTypeOfChange" asp-items="@Model.typeOfChange"></select>
+                        <h3>Kąt</h3>
+                        <div class="form-group" width="50px">
+                            <label asp-for="name" class="control-label">Nazwa</label>
+                            <input asp-for="name" class="form-control" />
+                            <span asp-validation-for="name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="value" class="control-label">Wartość</label>
+                            <input asp-for="value" class="form-control" />
+                            <span asp-validation-for="value" class="text-danger"></span>
+                        </div>
+                    <div class="form-group  text-center">
+                        <input type="submit" value="Oblicz" class="btn btn-default btn-sx" />
+                    </div>
+                </form>
+
             </div>
-            <div class="form-group">
-                <label asp-for="value" class="control-label">x</label>
-                <input asp-for="value" class="form-control" />
-                <span asp-validation-for="value" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="typeOfChange" class="control-label">y</label>
-                <input asp-for="typeOfChange" class="form-control" />
-                <span asp-validation-for="typeOfChange" class="text-danger"></span>
-            </div>
-        </div>
-    </form>
-</div>
-<div class="form-group  text-center">
-    <input type="submit" value="Oblicz" class="btn btn-default btn-sx" />
-</div>
-   
+
+
+
