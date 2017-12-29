@@ -219,10 +219,7 @@ namespace GeoHelper.Controllers
                 UsersProjects leadingProject = (from proj in _context.UsersProjects
                                                 where proj.user == email && proj.leading == true
                                                 select proj).First();
-                azymutViewModel.pointList1 = (from point in _context.Point
-                                                  where point.projectId == leadingProject.projectId
-                                                  select point).ToList();
-                azymutViewModel.pointList2 = (from point in _context.Point
+                azymutViewModel.pointList = (from point in _context.Point
                                                   where point.projectId == leadingProject.projectId
                                                   select point).ToList();
             }
@@ -314,7 +311,19 @@ namespace GeoHelper.Controllers
                                          where point.ID == katPoziomy.selectedId2
                                          select point).First().name;
             }
-            katPoziomyViewModel.obliczAzymut();
+            if (katPoziomy.selectedId3 != 0)
+            {
+                katPoziomyViewModel.x3 = (from point in _context.Point
+                                          where point.ID == katPoziomy.selectedId2
+                                          select point).First().x;
+                katPoziomyViewModel.y3 = (from point in _context.Point
+                                          where point.ID == katPoziomy.selectedId2
+                                          select point).First().y;
+                katPoziomyViewModel.name3 = (from point in _context.Point
+                                             where point.ID == katPoziomy.selectedId2
+                                             select point).First().name;
+            }
+            katPoziomyViewModel.obliczKatPoziomy();
 
             return View(katPoziomyViewModel);
         }
@@ -345,7 +354,7 @@ namespace GeoHelper.Controllers
             return View(zmianaMiarKatowychViewModel);
         }
 
-        // GET: Obliczenia/Odleglosci
+        // GET: Obliczenia/PunktyNaProstej
         public async Task<IActionResult> PunktyNaProstej()
         {
             PunktyNaProstejViewModel punktyNaProstejViewModel = new PunktyNaProstejViewModel();
@@ -398,6 +407,71 @@ namespace GeoHelper.Controllers
             punktyNaProstejViewModel.obliczPunktNaProstej();
 
             return View(punktyNaProstejViewModel);
+        }
+        // GET: Obliczenia/MetodaBiegunowa
+        public async Task<IActionResult> MetodaBiegunowa()
+        {
+            BiegunowaViewModel biegunowaViewModel = new BiegunowaViewModel();
+            if (User.Identity.IsAuthenticated)
+            {
+                string email = (await _userManager.GetUserAsync(HttpContext.User))?.Email;
+                UsersProjects leadingProject = (from proj in _context.UsersProjects
+                                                where proj.user == email && proj.leading == true
+                                                select proj).First();
+                biegunowaViewModel.pointList = (from point in _context.Point
+                                                 where point.projectId == leadingProject.projectId
+                                                 select point).ToList();
+            }
+            _logger.LogDebug(message: "get-------------------------------------------------------------------------------------------------");
+            return View(biegunowaViewModel);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> MetodaBiegunowa_wynik(BiegunowaViewModel biegunowa)
+        {
+            _logger.LogDebug(message: "odleglosci wynik------------------------------------------------------------------------------------------------Weszło odległości");
+            BiegunowaViewModel biegunowaViewModel = biegunowa;
+            if (biegunowa.selectedId1 != 0)
+            {
+                biegunowaViewModel.x1 = (from point in _context.Point
+                                          where point.ID == biegunowa.selectedId1
+                                          select point).First().x;
+                biegunowaViewModel.y1 = (from point in _context.Point
+                                          where point.ID == biegunowa.selectedId1
+                                          select point).First().y;
+                biegunowaViewModel.name1 = (from point in _context.Point
+                                             where point.ID == biegunowa.selectedId1
+                                             select point).First().name;
+            }
+            if (biegunowa.selectedId2 != 0)
+            {
+                biegunowaViewModel.x2 = (from point in _context.Point
+                                          where point.ID == biegunowa.selectedId2
+                                          select point).First().x;
+                biegunowaViewModel.y2 = (from point in _context.Point
+                                          where point.ID == biegunowa.selectedId2
+                                          select point).First().y;
+                biegunowaViewModel.name2 = (from point in _context.Point
+                                             where point.ID == biegunowa.selectedId2
+                                             select point).First().name;
+            }
+            if (biegunowa.selectedId3 != 0)
+            {
+                biegunowaViewModel.x3 = (from point in _context.Point
+                                          where point.ID == biegunowa.selectedId2
+                                          select point).First().x;
+                biegunowaViewModel.y3 = (from point in _context.Point
+                                          where point.ID == biegunowa.selectedId2
+                                          select point).First().y;
+                biegunowaViewModel.name3 = (from point in _context.Point
+                                             where point.ID == biegunowa.selectedId2
+                                             select point).First().name;
+            }
+            biegunowaViewModel.obliczWspolrzednePunktu();
+
+            return View(biegunowaViewModel);
         }
 
         private bool PointExists(int id)

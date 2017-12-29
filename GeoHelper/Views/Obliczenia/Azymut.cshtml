@@ -21,7 +21,7 @@
             <h3>Punkt A</h3>
             @if (SignInManager.IsSignedIn(User))
             {   <h4>Wybierz punkt do obliczeń z bieżącego projektu</h4>
-            <select class="btn btn-default dropdown-toggle" asp-for="@Model.selectedId1" asp-items="@(new SelectList(Model.pointList1,"ID", "name"))">
+            <select class="btn btn-default dropdown-toggle" asp-for="@Model.selectedId1" asp-items="@(new SelectList(Model.pointList,"ID", "name"))">
                 <option>Wybierz punkt A</option>
             </select>
                 <h4>lub wprowadź dowolne wartości:</h4>
@@ -48,7 +48,7 @@
             @if (SignInManager.IsSignedIn(User))
             {
                 <h4>Wybierz punkt do obliczeń z bieżącego projektu</h4>
-                <select class="btn btn-default  dropdown-toggle " asp-for="@Model.selectedId2" asp-items="@(new SelectList(Model.pointList1,"ID", "name"))">
+                <select class="btn btn-default  dropdown-toggle " asp-for="@Model.selectedId2" asp-items="@(new SelectList(Model.pointList,"ID", "name"))">
                     <option>Wybierz punkt B</option>
                 </select>
                 <h4>lub wprowadź dowolne wartości:</h4>
