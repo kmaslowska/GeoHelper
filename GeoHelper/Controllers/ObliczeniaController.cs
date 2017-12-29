@@ -345,6 +345,61 @@ namespace GeoHelper.Controllers
             return View(zmianaMiarKatowychViewModel);
         }
 
+        // GET: Obliczenia/Odleglosci
+        public async Task<IActionResult> PunktyNaProstej()
+        {
+            PunktyNaProstejViewModel punktyNaProstejViewModel = new PunktyNaProstejViewModel();
+            if (User.Identity.IsAuthenticated)
+            {
+                string email = (await _userManager.GetUserAsync(HttpContext.User))?.Email;
+                UsersProjects leadingProject = (from proj in _context.UsersProjects
+                                                where proj.user == email && proj.leading == true
+                                                select proj).First();
+                punktyNaProstejViewModel.pointList1 = (from point in _context.Point
+                                                  where point.projectId == leadingProject.projectId
+                                                  select point).ToList();
+                punktyNaProstejViewModel.pointList2 = (from point in _context.Point
+                                                  where point.projectId == leadingProject.projectId
+                                                  select point).ToList();
+            }
+            return View(punktyNaProstejViewModel);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PunktyNaProstej_wynik(PunktyNaProstejViewModel punktyNaProstej)
+        {
+            PunktyNaProstejViewModel punktyNaProstejViewModel = punktyNaProstej;
+            if (punktyNaProstej.selectedId1 != 0)
+            {
+                punktyNaProstejViewModel.x1 = (from point in _context.Point
+                                          where point.ID == punktyNaProstej.selectedId1
+                                          select point).First().x;
+                punktyNaProstejViewModel.y1 = (from point in _context.Point
+                                          where point.ID == punktyNaProstej.selectedId1
+                                          select point).First().y;
+                punktyNaProstejViewModel.name1 = (from point in _context.Point
+                                             where point.ID == punktyNaProstej.selectedId1
+                                             select point).First().name;
+            }
+            if (punktyNaProstej.selectedId2 != 0)
+            {
+                punktyNaProstejViewModel.x2 = (from point in _context.Point
+                                          where point.ID == punktyNaProstej.selectedId2
+                                          select point).First().x;
+                punktyNaProstejViewModel.y2 = (from point in _context.Point
+                                          where point.ID == punktyNaProstej.selectedId2
+                                          select point).First().y;
+                punktyNaProstejViewModel.name2 = (from point in _context.Point
+                                             where point.ID == punktyNaProstej.selectedId2
+                                             select point).First().name;
+            }
+            punktyNaProstejViewModel.obliczPunktNaProstej();
+
+            return View(punktyNaProstejViewModel);
+        }
+
         private bool PointExists(int id)
         {
             return _context.Point.Any(e => e.ID == id);

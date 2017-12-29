@@ -1,0 +1,93 @@
+﻿@model GeoHelper.Models.PunktyNaProstejViewModel
+
+@{
+    ViewData["Title"] = "Obliczanie współrzędnych punktu na prostej";
+}
+
+<h2>Wynik obliczeń</h2>
+
+<div class="row">
+    <div class="col-md-7 col-xs-12 text-center" style="float:right;">
+        <img src="~/images/test.jpg" alt="Sample Photo" width="300" height="300" />
+    </div>
+    <div class="col-md-4 col-xs-12">
+        <h4>Punkt A</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayName("Nazwa")
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.name1)
+            </dd>
+            <dt>
+                @Html.DisplayName("x")
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.x1)
+            </dd>
+            <dt>
+                @Html.DisplayName("y")
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.y1)
+            </dd>
+        </dl>
+
+        <h4>Punkt B</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayName("Nazwa")
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.name2)
+            </dd>
+            <dt>
+                @Html.DisplayName("x")
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.x2)
+            </dd>
+            <dt>
+                @Html.DisplayName("y")
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.y2)
+            </dd>
+        </dl>
+        <div>
+            <h4>Odległość punktu N od punktu A</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayName("Odległość")
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.distanceFrom1)
+                </dd>
+            </dl>
+        </div>
+        <div>
+            <h4>Obliczone współrzędne punktu N</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayName("X")
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.calculatedX)
+                </dd>
+                <dt>
+                    @Html.DisplayName("Y")
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.calculatedY)
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+    <div>
+        <a asp-action="PunktyNaProstej">Wykonaj obliczenia ponownie</a>
+    </div>
