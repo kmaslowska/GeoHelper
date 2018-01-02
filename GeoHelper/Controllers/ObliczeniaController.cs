@@ -473,6 +473,65 @@ namespace GeoHelper.Controllers
 
             return View(biegunowaViewModel);
         }
+        // GET: Obliczenia/DomiaryProstokątne
+        public async Task<IActionResult> DomiaryProstokatne()
+        {
+            DomiaryViewModel domiaryViewModel = new DomiaryViewModel();
+            if (User.Identity.IsAuthenticated)
+            {
+                string email = (await _userManager.GetUserAsync(HttpContext.User))?.Email;
+                UsersProjects leadingProject = (from proj in _context.UsersProjects
+                                                where proj.user == email && proj.leading == true
+                                                select proj).First();
+                domiaryViewModel.pointList = (from point in _context.Point
+                                                where point.projectId == leadingProject.projectId
+                                                select point).ToList();
+            }
+            domiaryViewModel.typeOfPoint= new List<SelectListItem>
+             {
+                    new SelectListItem {Text = "prawe", Value = "prawe"},
+                    new SelectListItem {Text = "lewe", Value = "lewe"},
+
+            };
+            _logger.LogDebug(message: "get-------------------------------------------------------------------------------------------------");
+            return View(domiaryViewModel);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DomiaryProstokatne_wynik(DomiaryViewModel domiary)
+        {
+            _logger.LogDebug(message: "odleglosci wynik------------------------------------------------------------------------------------------------Weszło odległości");
+            DomiaryViewModel domiaryViewModel = domiary;
+            if (domiary.selectedId1 != 0)
+            {
+                domiaryViewModel.x1 = (from point in _context.Point
+                                         where point.ID == domiary.selectedId1
+                                         select point).First().x;
+                domiaryViewModel.y1 = (from point in _context.Point
+                                         where point.ID == domiary.selectedId1
+                                         select point).First().y;
+                domiaryViewModel.name1 = (from point in _context.Point
+                                            where point.ID == domiary.selectedId1
+                                            select point).First().name;
+            }
+            if (domiary.selectedId2 != 0)
+            {
+                domiaryViewModel.x2 = (from point in _context.Point
+                                         where point.ID == domiary.selectedId2
+                                         select point).First().x;
+                domiaryViewModel.y2 = (from point in _context.Point
+                                         where point.ID == domiary.selectedId2
+                                         select point).First().y;
+                domiaryViewModel.name2 = (from point in _context.Point
+                                            where point.ID == domiary.selectedId2
+                                            select point).First().name;
+            }
+            domiaryViewModel.obliczWspolrzednePunktu();
+
+            return View(domiaryViewModel);
+        }
 
         private bool PointExists(int id)
         {
