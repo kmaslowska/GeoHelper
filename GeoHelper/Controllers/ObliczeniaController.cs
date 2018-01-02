@@ -502,7 +502,7 @@ namespace GeoHelper.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DomiaryProstokatne_wynik(DomiaryViewModel domiary)
         {
-            _logger.LogDebug(message: "odleglosci wynik------------------------------------------------------------------------------------------------Weszło odległości");
+            _logger.LogDebug(message: "domiary wynik------------------------------------------------------------------------------------------------Weszło domiary post");
             DomiaryViewModel domiaryViewModel = domiary;
             if (domiary.selectedId1 != 0)
             {

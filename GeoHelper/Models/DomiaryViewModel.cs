@@ -27,7 +27,26 @@ namespace GeoHelper.Models
 
         internal void obliczWspolrzednePunktu()
         {
-            
+            double roznicaXAB = x2 - x1;
+            double roznicaYAB = y2 - y1;
+            double odlegloscAB = Math.Sqrt(roznicaXAB * roznicaXAB + roznicaYAB * roznicaYAB);
+            double roznicaXANPrim = distance1NPrim * (roznicaXAB / odlegloscAB);
+            double roznicaYANPrim = distance1NPrim * (roznicaYAB / odlegloscAB);
+            double roznicaXNNPrim = distanceNPrimN * (roznicaYAB / odlegloscAB);
+            double roznicaYNNPrim = distanceNPrimN * (roznicaXAB / odlegloscAB);
+            switch (selectedTypeOfPoint)
+            {
+                case "prawe":
+                    calculatedX = x1 + roznicaXANPrim - roznicaXNNPrim;
+                    calculatedY = y1 + roznicaYANPrim + roznicaYNNPrim;
+                    break;
+                case "lewe":
+                    calculatedX = x1 + roznicaXANPrim + roznicaXNNPrim;
+                    calculatedY = y1 + roznicaYANPrim - roznicaYNNPrim;
+                    break;
+
+
+            }
         }
     }
 }
