@@ -1,59 +1,101 @@
-﻿@model IEnumerable<GeoHelper.Models.Point>
-
+﻿@model GeoHelper.Models.WciecieKatoweViewModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Obliczanie współrzędnych punktu z wykorzystaniem wcięcia kątowego";
 }
+@inject SignInManager<ApplicationUser> SignInManager
 
-<h2>Index</h2>
+<h2>Wcięcie kątowe</h2>
+<h4>Obliczanie współrzędnych punktu z wykorzystaniem wcięcia kątowego</h4>
+<form asp-action="WciecieKatowe_wynik">
+    <div class="row">
+        <div class="col-md-12 col-sm-12 text-center">
+            <img src="~/images/test.jpg" alt="Sample Photo" width="300" height="300" />
+        </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.x)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.y)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.z)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.projectId)
-                </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.x)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.y)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.z)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.projectId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="ID" />
+        <input type="hidden" asp-for="calculatedX" />
+        <input type="hidden" asp-for="calculatedY" />
+        <div>
+
+
+            <div class="col-md-6 col-lg-6">
+                <h3>Punkt A</h3>
+                @if (SignInManager.IsSignedIn(User))
+            {   <h4>Wybierz punkt do obliczeń z bieżącego projektu</h4>
+                <select class="btn btn-default dropdown-toggle" asp-for="@Model.selectedId1" asp-items="@(new SelectList(Model.pointList,"ID", "name"))">
+                    <option>Wybierz punkt A</option>
+                </select>
+                <h4>lub wprowadź dowolne wartości:</h4>
+                }
+
+                <div class="form-group" width="50px">
+                    <label asp-for="name1" class="control-label">Nazwa</label>
+                    <input asp-for="name1" class="form-control" />
+                    <span asp-validation-for="name1" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="x1" class="control-label">x</label>
+                    <input asp-for="x1" class="form-control" />
+                    <span asp-validation-for="x1" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="y1" class="control-label">y</label>
+                    <input asp-for="y1" class="form-control" />
+                    <span asp-validation-for="y1" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="angle1" class="control-label">Miara kąta α</label>
+                    <input asp-for="angle1" class="form-control" />
+                    <span asp-validation-for="angle1" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <h3>Punkt B</h3>
+                @if (SignInManager.IsSignedIn(User))
+            {
+                    <h4>Wybierz punkt do obliczeń z bieżącego projektu</h4>
+                    <select class="btn btn-default  dropdown-toggle " asp-for="@Model.selectedId2" asp-items="@(new SelectList(Model.pointList,"ID", "name"))">
+                        <option>Wybierz punkt B</option>
+                    </select>
+                    <h4>lub wprowadź dowolne wartości:</h4>
+                }
+
+                <div class="form-group">
+                    <label asp-for="name2" class="control-label">Nazwa</label>
+                    <input asp-for="name2" class="form-control" />
+                    <span asp-validation-for="name2" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="x2" class="control-label">x</label>
+                    <input asp-for="x2" class="form-control" />
+                    <span asp-validation-for="x2" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="y2" class="control-label">y</label>
+                    <input asp-for="y2" class="form-control" />
+                    <span asp-validation-for="y2" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="angle2" class="control-label">Miara kąta β</label>
+                    <input asp-for="angle2" class="form-control" />
+                    <span asp-validation-for="angle2" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-xs-12">
+            <div class="form-group  text-center">
+                <input type="submit" value="Oblicz" class="btn btn-default btn-sx" />
+            </div>
+        </div>
+    </div>
+
+
+</form>
+
+
+
+

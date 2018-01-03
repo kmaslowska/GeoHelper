@@ -27,7 +27,7 @@ namespace GeoHelper.Models
         {
             double roznicaX = x2 - x1;
             double roznicaY = y2 - y1;
-            double czwartak = (Math.Atan(roznicaX / roznicaY) * 400) / (2 * Math.PI); 
+            double czwartak = (Math.Atan(roznicaY / roznicaX) * 400) / (2 * Math.PI); 
             double score=0;
 
             if(roznicaX >= 0 && roznicaY >= 0)

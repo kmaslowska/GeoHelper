@@ -364,10 +364,7 @@ namespace GeoHelper.Controllers
                 UsersProjects leadingProject = (from proj in _context.UsersProjects
                                                 where proj.user == email && proj.leading == true
                                                 select proj).First();
-                punktyNaProstejViewModel.pointList1 = (from point in _context.Point
-                                                  where point.projectId == leadingProject.projectId
-                                                  select point).ToList();
-                punktyNaProstejViewModel.pointList2 = (from point in _context.Point
+                punktyNaProstejViewModel.pointList = (from point in _context.Point
                                                   where point.projectId == leadingProject.projectId
                                                   select point).ToList();
             }
@@ -531,6 +528,58 @@ namespace GeoHelper.Controllers
             domiaryViewModel.obliczWspolrzednePunktu();
 
             return View(domiaryViewModel);
+        }
+
+        // GET: Obliczenia/WciecieKatowe
+        public async Task<IActionResult> WciecieKatowe()
+        {
+            WciecieKatoweViewModel wciecieKatoweViewModel = new WciecieKatoweViewModel();
+            if (User.Identity.IsAuthenticated)
+            {
+                string email = (await _userManager.GetUserAsync(HttpContext.User))?.Email;
+                UsersProjects leadingProject = (from proj in _context.UsersProjects
+                                                where proj.user == email && proj.leading == true
+                                                select proj).First();
+                wciecieKatoweViewModel.pointList = (from point in _context.Point
+                                                      where point.projectId == leadingProject.projectId
+                                                      select point).ToList();
+            }
+            return View(wciecieKatoweViewModel);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> WciecieKatowe_wynik(WciecieKatoweViewModel wciecieKatowe)
+        {
+            WciecieKatoweViewModel wciecieKatoweViewModel = wciecieKatowe;
+            if (wciecieKatowe.selectedId1 != 0)
+            {
+                wciecieKatoweViewModel.x1 = (from point in _context.Point
+                                               where point.ID == wciecieKatowe.selectedId1
+                                               select point).First().x;
+                wciecieKatoweViewModel.y1 = (from point in _context.Point
+                                               where point.ID == wciecieKatowe.selectedId1
+                                               select point).First().y;
+                wciecieKatoweViewModel.name1 = (from point in _context.Point
+                                                  where point.ID == wciecieKatowe.selectedId1
+                                                  select point).First().name;
+            }
+            if (wciecieKatowe.selectedId2 != 0)
+            {
+                wciecieKatoweViewModel.x2 = (from point in _context.Point
+                                               where point.ID == wciecieKatowe.selectedId2
+                                               select point).First().x;
+                wciecieKatoweViewModel.y2 = (from point in _context.Point
+                                               where point.ID == wciecieKatowe.selectedId2
+                                               select point).First().y;
+                wciecieKatoweViewModel.name2 = (from point in _context.Point
+                                                  where point.ID == wciecieKatowe.selectedId2
+                                                  select point).First().name;
+            }
+            wciecieKatoweViewModel.obliczWspolrzedne();
+
+            return View(wciecieKatoweViewModel);
         }
 
         private bool PointExists(int id)

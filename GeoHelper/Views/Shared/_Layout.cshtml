@@ -36,21 +36,17 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li> <a href="#">@Html.ActionLink("Metoda biegunowa", "MetodaBiegunowa", "Obliczenia")</a></li>
-                            <!--<li><a href="#">@Html.ActionLink("Wcięcie kątowe", "WciecieKatowe", "Obliczenia")</a></li></li>-->
-                            <li><a href="#">@Html.ActionLink("Domiary prostokątne", "DomiaryProstokatne", "Obliczenia")</a></li>
-
-                            <li><a href="#">@Html.ActionLink("Punkty na prostej", "PunktyNaProstej", "Obliczenia")</a></li>
-                            <li><a href="#">@Html.ActionLink("Zmiana miar kątowych", "ZmianaMiarKatowych", "Obliczenia")</a></li>
-                            <li><a href="#">@Html.ActionLink("Azymut", "Azymut", "Obliczenia")</a></li>
-                            <li><a href="#">@Html.ActionLink("Odległości", "Odleglosci", "Obliczenia")</a></li>
-                            <li><a href="#">@Html.ActionLink("Kąt poziomy między odcinkami", "KatPoziomy", "Obliczenia")</a></li>
+                            <li>@Html.ActionLink("Metoda biegunowa", "MetodaBiegunowa", "Obliczenia")</li>
+                            <li>@Html.ActionLink("Wcięcie kątowe", "WciecieKatowe", "Obliczenia")</li>
+                            <li>@Html.ActionLink("Domiary prostokątne", "DomiaryProstokatne", "Obliczenia")</li>
+                            <li>@Html.ActionLink("Punkty na prostej", "PunktyNaProstej", "Obliczenia")</li>
+                            <li>@Html.ActionLink("Zmiana miar kątowych", "ZmianaMiarKatowych", "Obliczenia")</li>
+                            <li>@Html.ActionLink("Azymut", "Azymut", "Obliczenia")</li>
+                            <li>@Html.ActionLink("Odległości", "Odleglosci", "Obliczenia")</li>
+                            <li>@Html.ActionLink("Kąt poziomy między odcinkami", "KatPoziomy", "Obliczenia")</li>
                         </ul>
 
                     </li>
-                   <!-- <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>-->
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>

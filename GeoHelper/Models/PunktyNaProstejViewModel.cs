@@ -15,8 +15,7 @@ namespace GeoHelper.Models
         public double x2 { get; set; }
         public double y2 { get; set; }
         public double distanceFrom1 { set; get; }
-        public List<Point> pointList1 { set; get; }
-        public List<Point> pointList2 { set; get; }
+        public List<Point> pointList { set; get; }
         public int selectedId1 { set; get; }
         public int selectedId2 { set; get; }
         public double calculatedX { get; set; }
