@@ -1,18 +1,17 @@
 ﻿@model GeoHelper.Models.Point
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Utwórz";
 }
 
-<h2>Edytuj</h2>
+<h2>Utwórz</h2>
 
-<h4>Punkt</h4>
+<h4>Punkt w bieżącym projekcie</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="CreateCurrentProject" >
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="ID" />
             <div class="form-group">
                 <label asp-for="name" class="control-label">Nazwa</label>
                 <input asp-for="name" class="form-control" />
@@ -20,33 +19,33 @@
             </div>
             <div class="form-group">
                 <label asp-for="x" class="control-label"></label>
-                <input asp-for="x" class="form-control" />
+                <input asp-for="x" class="form-control" autocomplete="off" />
                 <span asp-validation-for="x" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="y" class="control-label"></label>
-                <input asp-for="y" class="form-control" />
+                <input asp-for="y" class="form-control" autocomplete="off"/>
                 <span asp-validation-for="y" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="z" class="control-label"></label>
-                <input asp-for="z" class="form-control" />
+                <input asp-for="z" class="form-control" autocomplete="off"/>
                 <span asp-validation-for="z" class="text-danger"></span>
             </div>
-            <div class="form-group">
-               
-                <input type="hidden" asp-for="projectId" class="form-control"/>
+            <div class="form-group" >
+                
+                <input  type="hidden" asp-for="projectId" class="form-control" value="@ViewBag.projectId" />
                 <span asp-validation-for="projectId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Zapisz" class="btn btn-default" />
+                <input type="submit" value="Utwórz" class="btn btn-default"  />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="IndexCurrentProject">Powrót do listy punktów</a>
+    <a asp-action="IndexCurrentProject">Powrót do listy punktów bieżacego projektu</a>
 </div>
 
 @section Scripts {

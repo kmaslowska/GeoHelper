@@ -36,8 +36,9 @@ namespace GeoHelper.Controllers
                                              select proj).First();
             var points = (from point in _context.Point
                           where point.projectId == usersInProjects.projectId
-                          select point);
-            return View(await points.ToListAsync());
+                          select point).ToList();
+            ViewBag.projectId = usersInProjects.projectId;
+            return View( points);
         }
         // GET: Points
         public async Task<IActionResult> Index(int? id)
@@ -45,6 +46,7 @@ namespace GeoHelper.Controllers
             var points = (from point in _context.Point
                                   where point.projectId == id
                                   select point);
+            ViewBag.projectId = id;
             return View(await points.ToListAsync());
         }
 
@@ -84,11 +86,48 @@ namespace GeoHelper.Controllers
             {
                 _context.Add(point);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                String email = (await _userManager.GetUserAsync(HttpContext.User))?.Email;
+                UsersProjects usersInProjects = (from proj in _context.UsersProjects
+                                                 where proj.user == email && proj.leading == true
+                                                 select proj).First();
+                if (usersInProjects.projectId == point.projectId)
+                {
+                    return RedirectToAction("IndexCurrentProject");
+                }
+                else
+                {
+                    return RedirectToAction("Index", new { id = point.projectId });
+                }
+
             }
             return View(point);
         }
+        // GET: Points/CreateCurrentProject
+        public async Task<IActionResult> CreateCurrentProject()
+        {
+            String email = (await _userManager.GetUserAsync(HttpContext.User))?.Email;
+            UsersProjects usersInProjects = (from proj in _context.UsersProjects
+                                             where proj.user == email && proj.leading == true
+                                             select proj).First();
+            ViewBag.projectId =usersInProjects.projectId ;
+            return View();
+        }
 
+        // POST: Points/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateCurrentProject([Bind("ID,name,x,y,z,projectId")] Point point)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(point);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(IndexCurrentProject));
+            }
+            return View(point);
+        }
         // GET: Points/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -135,7 +174,7 @@ namespace GeoHelper.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { id = point.projectId });
             }
             return View(point);
         }
@@ -166,7 +205,7 @@ namespace GeoHelper.Controllers
             var point = await _context.Point.SingleOrDefaultAsync(m => m.ID == id);
             _context.Point.Remove(point);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", new { id = point.projectId });
         }
 
         private bool PointExists(int id)
