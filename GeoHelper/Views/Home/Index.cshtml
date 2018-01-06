@@ -2,4 +2,69 @@
     ViewData["Title"] = "Home Page";
 }
 
-<h1>Witaj w aplikacji GeoHelper</h1>
+<h1 class="text-center">Witaj w aplikacji GeoHelper</h1>
+@if (ViewBag.numberOfProjects > 0)
+{
+    <h3 class="text-center">Liczba Twoich projektów: @ViewBag.numberOfProjects    <a class="btn btn-default" asp-action="Index" asp-controller="Projects">Zarządzaj</a></h3>
+
+}
+else
+{
+    <h3 class="text-center">Zaby korzystać ze wszystich funkcjonalności zaloguj się</h3>
+
+}
+<div>
+    <h2 class="text-center">Wykonaj obliczenia</h2>
+    <div class="row" >
+        <div class="col-md-6">
+            <a asp-action="Azymut" asp-controller="Obliczenia">
+                <img src="~/images/test.jpg" alt="Sample Photo" width="300" height="300" />
+            </a>
+        </div>
+
+        <div class="col-md-6">
+            <a asp-action="Odleglosci" asp-controller="Obliczenia">
+                <img href="Odleglosci" src="~/images/test.jpg" alt="Sample Photo" width="300" height="300" />
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <a asp-action="ZmianaMiarKatowych" asp-controller="Obliczenia">
+                <img src="~/images/test.jpg" alt="Sample Photo" width="300" height="300" />
+            </a>
+        </div>
+
+        <div class="col-md-6">
+            <a asp-action="KatPoziomy" asp-controller="Obliczenia">
+                <img href="Odleglosci" src="~/images/test.jpg" alt="Sample Photo" width="300" height="300" />
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <a asp-action="MetodaBiegunowa" asp-controller="Obliczenia">
+                <img src="~/images/test.jpg" alt="Sample Photo" width="300" height="300" />
+            </a>
+        </div>
+
+        <div class="col-md-6">
+            <a asp-action="WciecieKatowe" asp-controller="Obliczenia">
+                <img href="Odleglosci" src="~/images/test.jpg" alt="Sample Photo" width="300" height="300" />
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <a asp-action="PunktyNaProstej" asp-controller="Obliczenia">
+                <img src="~/images/test.jpg" alt="Sample Photo" width="300" height="300" />
+            </a>
+        </div>
+
+        <div class="col-md-6">
+            <a asp-action="DomiaryProstokatne" asp-controller="Obliczenia">
+                <img href="Odleglosci" src="~/images/test.jpg" alt="Sample Photo" width="300" height="300" />
+            </a>
+        </div>
+    </div>
+</div>
