@@ -1,14 +1,14 @@
 ﻿@model GeoHelper.Models.Project
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Usuń";
 }
 
-<h2>Delete</h2>
+<h2>Usuń</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Czy jesteś pewny, że chcesz usunąć ten projekt?</h3>
 <div>
-    <h4>Project</h4>
+    <h4>Projekt</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -39,7 +39,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="ID" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Usuń" class="btn btn-default" /> |
+        <a asp-action="Index">Powrót do listy projektów</a>
     </form>
 </div>

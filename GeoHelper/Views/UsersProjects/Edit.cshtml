@@ -4,9 +4,9 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Edytuj</h2>
 
-<h4>UsersProjects</h4>
+<h4>kolaboranta w Twoim projekcie</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,14 +24,14 @@
                 <span asp-validation-for="user" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Zapisz" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-route-id="@Model.projectId">Powrót do listy kolaborantów w Twoim projekcie</a>
 </div>
 
 @section Scripts {

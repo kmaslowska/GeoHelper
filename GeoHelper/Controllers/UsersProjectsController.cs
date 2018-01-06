@@ -6,25 +6,60 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GeoHelper.Models;
+using Microsoft.AspNetCore.Identity;
+using GeoHelper.Data;
+using Microsoft.Extensions.Logging;
 
 namespace GeoHelper.Controllers
 {
     public class UsersProjectsController : Controller
     {
         private readonly GeoHelperContext _context;
+        private readonly ApplicationDbContext _contextApp;
+        private readonly ILogger _logger;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public UsersProjectsController(GeoHelperContext context)
+        public UsersProjectsController(GeoHelperContext context, ApplicationDbContext contextApp, ILogger<ObliczeniaController> logger, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _contextApp = contextApp;
+            _logger = logger;
+            _userManager = userManager;
         }
 
         // GET: UsersProjects
         public async Task<IActionResult> Index(int? id)
         {
-            var usersInProjekt = (from user in _context.UsersProjects
+
+            if (!id.HasValue)
+            {
+                ViewBag.isAll = true;
+                string email = (await _userManager.GetUserAsync(HttpContext.User))?.Email;
+
+                List<Project> projekty = (from proj in _context.Project
+                                          where proj.owner == email
+                                          select proj).ToList();
+                List<UsersProjects> usersInProjektList = new List<UsersProjects>();
+                for (int i = 0; i < projekty.Count; i++)
+                {
+                    List<UsersProjects> usersInProjekt = (from user in _context.UsersProjects
+                                                          where user.projectId == projekty[i].ID
+                                                          select user).ToList();
+                    usersInProjektList.AddRange(usersInProjekt);
+                }
+
+                return View(usersInProjektList);
+            }
+            else
+            {
+                ViewBag.isAll = false;
+                ViewBag.projectId = id;
+                var usersInProjekt = (from user in _context.UsersProjects
                             where user.projectId == id
                             select user);
             return View(await usersInProjekt.ToListAsync());
+            }
+
         }
 
         // GET: UsersProjects/Details/5
@@ -62,7 +97,7 @@ namespace GeoHelper.Controllers
             {
                 _context.Add(usersProjects);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { id = usersProjects.projectId });
             }
             return View(usersProjects);
         }
@@ -113,7 +148,7 @@ namespace GeoHelper.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", new { id = usersProjects.projectId });
             }
             return View(usersProjects);
         }
@@ -144,7 +179,7 @@ namespace GeoHelper.Controllers
             var usersProjects = await _context.UsersProjects.SingleOrDefaultAsync(m => m.ID == id);
             _context.UsersProjects.Remove(usersProjects);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", new { id = usersProjects.projectId });
         }
 
         private bool UsersProjectsExists(int id)

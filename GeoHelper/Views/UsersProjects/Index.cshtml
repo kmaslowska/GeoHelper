@@ -3,8 +3,15 @@
 @{
     ViewData["Title"] = "Index";
 }
+@inject SignInManager<ApplicationUser> SignInManager
+@if(@ViewBag.isAll){
+    <h2>Kolaboranci w Twoich projektach</h2>
+}
+else{
+    <h2>Kolaboranci w Twoim projekcie @ViewBag.projectId</h2>
+}
 
-<h2>Kolaboranci w Twoim projekcie</h2>
+
 
 <p>
     <a asp-action="Create">Dodaj nowego kolaboranta</a>
@@ -22,7 +29,11 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
+    if (!SignInManager.UserManager.GetUserName(User).Equals(item.user))
+    {
+
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.projectId)
@@ -36,6 +47,8 @@
                 <a asp-action="Delete" asp-route-id="@item.ID">Usuń</a>
             </td>
         </tr>
+    }
+
 }
     </tbody>
 </table>

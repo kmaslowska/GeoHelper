@@ -28,8 +28,13 @@ namespace GeoHelper.Controllers
         // GET: Projects
         public async Task<IActionResult> Index()
         {
-            string email = (await _userManager.GetUserAsync(HttpContext.User))?.Email;
-            _logger.LogDebug(message: "email----------------------------------------------------------------------------------------------"+email);
+            //id wiodacego projektu dla uzytkownika
+            String email = (await _userManager.GetUserAsync(HttpContext.User))?.Email;
+            UsersProjects usersInProjects = (from proj in _context.UsersProjects
+                                             where proj.user == email && proj.leading == true
+                                             select proj).First();
+            ViewBag.leadingId = usersInProjects.projectId;
+
             var projekty= (from proj in _context.Project
                            where proj.owner == email 
                            select proj);

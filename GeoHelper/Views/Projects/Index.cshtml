@@ -24,6 +24,9 @@
                 <th>
                     @Html.DisplayName("Układ odniesienia")
                 </th>
+            <th>
+                @Html.DisplayName("Czy główny?")
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -41,6 +44,16 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.frameOfReference)
+            </td>
+            <td>
+                @if (@ViewBag.leadingId == item.ID)
+                {
+                    <p>Tak</p>
+                }
+                else
+                {
+                    <p>Nie</p>
+                }
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edytuj</a> |
