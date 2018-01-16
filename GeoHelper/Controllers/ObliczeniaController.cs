@@ -314,13 +314,13 @@ namespace GeoHelper.Controllers
             if (katPoziomy.selectedId3 != 0)
             {
                 katPoziomyViewModel.x3 = (from point in _context.Point
-                                          where point.ID == katPoziomy.selectedId2
+                                          where point.ID == katPoziomy.selectedId3
                                           select point).First().x;
                 katPoziomyViewModel.y3 = (from point in _context.Point
-                                          where point.ID == katPoziomy.selectedId2
+                                          where point.ID == katPoziomy.selectedId3
                                           select point).First().y;
                 katPoziomyViewModel.name3 = (from point in _context.Point
-                                             where point.ID == katPoziomy.selectedId2
+                                             where point.ID == katPoziomy.selectedId3
                                              select point).First().name;
             }
             katPoziomyViewModel.obliczKatPoziomy();
@@ -457,13 +457,13 @@ namespace GeoHelper.Controllers
             if (biegunowa.selectedId3 != 0)
             {
                 biegunowaViewModel.x3 = (from point in _context.Point
-                                          where point.ID == biegunowa.selectedId2
+                                          where point.ID == biegunowa.selectedId3
                                           select point).First().x;
                 biegunowaViewModel.y3 = (from point in _context.Point
-                                          where point.ID == biegunowa.selectedId2
+                                          where point.ID == biegunowa.selectedId3
                                           select point).First().y;
                 biegunowaViewModel.name3 = (from point in _context.Point
-                                             where point.ID == biegunowa.selectedId2
+                                             where point.ID == biegunowa.selectedId3
                                              select point).First().name;
             }
             biegunowaViewModel.obliczWspolrzednePunktu();
